@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "D3.js Simple Bar Chart";
+}
+
+<style>
+    
+    .axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+</style>
+
+<h2>D3 Simple Bar Chart</h2>
+<h3>Manchester United FC Top Goalscorers (Barclays Premier League 2012-13)</h3>
+
+<div id="containerChart">
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/d3.v3.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var jsonData = [
+            { "PlayerName": "Robin Van Persie", "GoalsScored": 26 },
+            { "PlayerName": "Wayne Rooney", "GoalsScored": 12 },
+            { "PlayerName": "Javier Hernández", "GoalsScored": 10 },
+            { "PlayerName": "Shinji Kagawa", "GoalsScored": 6 },
+            { "PlayerName": "Patrice Evra", "GoalsScored": 4 }
+        ];
+
+        var svgWidth = 600;
+        var svgHeight = 300;
+
+        var barPadding = 2;
+        var heightPad = 50;
+        var widthPad = 50;
+
+        //Set up scales
+        var xScale = d3.scale.ordinal()
+            .domain(jsonData.map(function(d) { return d.PlayerName; }))
+            .rangeRoundBands([0, svgWidth], .1);
+
+        var yScale = d3.scale.linear()
+            .domain([0,d3.max(jsonData, function (d){return d.GoalsScored;})])
+            .range([svgHeight, 0]);
+
+        var svg = d3.select("#containerChart")
+            .append("svg")
+            .attr("width", svgWidth + (widthPad * 2))
+            .attr("height", svgHeight + (heightPad * 2))
+            .append("g")
+            .attr("transform", "translate(" + widthPad + "," + heightPad + ")");
+
+        var barWidth = svgWidth / jsonData.length;
+        svg.selectAll("rect")
+            .data(jsonData)
+            .enter().append("rect")
+            .attr("x", function (d) {return xScale(d.PlayerName) + widthPad;})
+            .attr("y", function (d) { return yScale(d.GoalsScored); })
+            .attr("height", function (d) { return svgHeight - yScale(d.GoalsScored); })
+            .attr("width", xScale.rangeBand())
+            .attr("fill", "red");
+
+        // Y axis
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left");
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + widthPad + ",0)")
+            .call(yAxis)
+        .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -50)
+            .style("text-anchor", "end")
+            .text("Number of Goals");
+
+        var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom");
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + widthPad +"," + svgHeight + ")")
+            .call(xAxis)
+        .append("text")
+            .attr("x", svgWidth / 2 - widthPad)
+            .attr("y", 50)
+            .text("Goal Scorer");
+
+
+
+    });
+
+</script>
