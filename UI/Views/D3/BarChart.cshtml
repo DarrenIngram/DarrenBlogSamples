@@ -3,19 +3,18 @@
 }
 
 <style>
-    
     .axis path,
-.axis line {
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
-}
-
+    .axis line 
+    {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
 </style>
 
 <h2>D3 Simple Bar Chart</h2>
 <h3>Manchester United FC Top Goalscorers (Barclays Premier League 2012-13)</h3>
-
+<p>Created as part of <a href="http://www.darreningram.net/creating-a-simple-bar-chart-with-d3-js/">Creating a Simple Bar Chart with D3.js</a></p>
 <div id="containerChart">
 
 </div>
@@ -35,18 +34,8 @@
         var svgWidth = 600;
         var svgHeight = 300;
 
-        var barPadding = 2;
         var heightPad = 50;
         var widthPad = 50;
-
-        //Set up scales
-        var xScale = d3.scale.ordinal()
-            .domain(jsonData.map(function(d) { return d.PlayerName; }))
-            .rangeRoundBands([0, svgWidth], .1);
-
-        var yScale = d3.scale.linear()
-            .domain([0,d3.max(jsonData, function (d){return d.GoalsScored;})])
-            .range([svgHeight, 0]);
 
         var svg = d3.select("#containerChart")
             .append("svg")
@@ -55,11 +44,20 @@
             .append("g")
             .attr("transform", "translate(" + widthPad + "," + heightPad + ")");
 
-        var barWidth = svgWidth / jsonData.length;
+        //Set up scales
+        var xScale = d3.scale.ordinal()
+            .domain(jsonData.map(function(d) { return d.PlayerName; }))
+            .rangeRoundBands([0, svgWidth], .1);
+
+       var yScale = d3.scale.linear()
+            .domain([0, 26])
+            .range([svgHeight,0]);
+
+       // Create bars
         svg.selectAll("rect")
             .data(jsonData)
             .enter().append("rect")
-            .attr("x", function (d) {return xScale(d.PlayerName) + widthPad;})
+            .attr("x", function (d) { return xScale(d.PlayerName) + widthPad; })
             .attr("y", function (d) { return yScale(d.GoalsScored); })
             .attr("height", function (d) { return svgHeight - yScale(d.GoalsScored); })
             .attr("width", xScale.rangeBand())
@@ -74,27 +72,25 @@
             .attr("class", "axis")
             .attr("transform", "translate(" + widthPad + ",0)")
             .call(yAxis)
-        .append("text")
+         .append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -50)
             .style("text-anchor", "end")
             .text("Number of Goals");
 
+        // X axis
         var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient("bottom");
 
         svg.append("g")
             .attr("class", "axis")
-            .attr("transform", "translate(" + widthPad +"," + svgHeight + ")")
+            .attr("transform", "translate(" + widthPad + "," + svgHeight + ")")
             .call(xAxis)
-        .append("text")
+         .append("text")
             .attr("x", svgWidth / 2 - widthPad)
             .attr("y", 50)
             .text("Goal Scorer");
 
-
-
     });
-
 </script>
