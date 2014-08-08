@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "RealTimeMap";
+}
+
+
+<style>
+    .state {
+        stroke: rgb(128, 128, 128);
+        stroke-linejoin: round;
+    }
+</style>
+
+<h2>Real Time Map</h2>
+<h3>D3.js and ASP.NET SignalR</h3>
+
+<div id="containerMap">
+
+</div>
+
+
+<script src="~/Scripts/d3.v3.min.js"></script>
+<script src="~/Scripts/topojson.js"></script>
+<script src="~/Scripts/jquery.signalR-2.0.2.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script>
+    var _svgWidth = 1100, _svgHeight = 800;
+    var _svg;
+
+    $(document).ready(function () {
+
+
+
+
+        _svg = d3.select("#containerMap").append("svg")
+              .attr("id", "svgMap")
+              .attr("width", _svgWidth)
+              .attr("height", _svgHeight);
+
+
+
+        d3.json("/DarrenBlogSamples/Data/us.json", function (us) {
+            // Pull out the states from the json file.
+            var states = topojson.feature(us, us.objects.states).features;
+
+            // Create a projection path.
+            var path = d3.geo.path()
+                .projection(d3.geo.albersUsa());
+
+            // Create a group to contain all the states.
+            var statesGroup = _svg.append("g")
+                .attr("id", "gStates");
+
+            // Draw the states.
+            // Add the FIPS code as an attribute so we can identify each one later. 
+            statesGroup.selectAll("path")
+                .data(states)
+                .enter().append("path")
+                .attr("d", path)
+                .attr("fill", "white")
+                .attr("class", "state")
+                .attr("stateFipsCode", function(d) {
+                    return d.id;
+                });
+        });
+
+
+
+        // Declare a proxy to reference the hub. 
+        var realTimeMapHub = $.connection.realTimeMapHub;
+        // Create a function that the hub can call to broadcast messages.
+        realTimeMapHub.client.mapUpdate = function (name, stateFipsCode, color, note) {
+            console.log("REAL TIME UPDATE:");
+            console.log(name);
+            console.log(stateFipsCode);
+            console.log(color);
+            console.log(note);
+
+            var stateElem = $("[stateFipsCode = " + stateFipsCode + "]");
+            stateElem.attr("fill", color);
+        };
+
+        $.connection.hub.start().done(function () { console.log("hub done"); });
+    });
+</script>
