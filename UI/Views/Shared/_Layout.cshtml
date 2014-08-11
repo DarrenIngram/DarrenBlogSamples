@@ -9,6 +9,41 @@
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/toastr")
+    
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <script>
+
+    function boostrapHighlight(element, errorClass, validClass) {
+        $(element).closest(".form-group").addClass("has-error");
+        $(element).trigger('highlight');
+
+    };
+
+    function boostrapUnhighlight(element, errorClass, validClass) {
+        $(element).closest(".form-group").removeClass("has-error");
+        $(element).trigger('unhighlight');
+    };
+
+    $.validator.setDefaults({
+        ignore: "",
+        highlight: function (element, errorClass, validClass) {
+            boostrapHighlight(element, errorClass, validClass);
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            boostrapUnhighlight(element, errorClass, validClass);
+        }
+    });
+
+    </script>
+
+
+
+    
+
     @RenderSection("scripts", required: false)
 </head>
 <body>

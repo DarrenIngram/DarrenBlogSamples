@@ -15,3 +15,43 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.field-validation-error {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #d9534f;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    /*
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+    */
+    color: #b94a48;
+    border-color: #b94a48;
+    float: left;
+}
+
+    .input-validation-error:focus {
+        border-color: #953b39;
+        -webkit-box-shadow: 0 0 6px #d59392;
+        -moz-box-shadow: 0 0 6px #d59392;
+        box-shadow: 0 0 6px #d59392;
+    }
+
+.validation-summary-errors {
+    /*font-weight: bold;*/
+    color: #b94a48;
+}
