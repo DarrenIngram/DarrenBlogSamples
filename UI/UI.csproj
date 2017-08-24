@@ -15,11 +15,12 @@
     <AssemblyName>DarrenBlogSamples.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -188,6 +189,7 @@
     <Content Include="Views\D3\RealTimeMap.cshtml" />
     <Content Include="Views\D3\RealTimeMapAdmin.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
+    <Content Include="Views\D3\GunClubSeason2017.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

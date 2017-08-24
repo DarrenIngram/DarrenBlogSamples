@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Gun Club Trap Shooting League 2017 Season";
+}
+
+<style>
+    .axis path,
+    .axis line 
+    {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+</style>
+
+<h1>Gun Club Trap Shooting League 2017 Season</h1>
+<div id="containerChart">
+        <div id="chart">
+        <svg></svg>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.js"></script>
+
+
+
+
+
+<script>
+
+        nv.addGraph(function () {
+            var chart = nv.models.lineChart()
+            .margin({ left: 100 })  //Adjust chart margins to give the x-axis some breathing room.
+            .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+            .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+            .showYAxis(true)        //Show the y-axis
+            .showXAxis(true)        //Show the x-axis
+
+            chart.xAxis
+              .axisLabel('Week')
+              .tickFormat(d3.format(',f'));
+            ;
+
+            chart.yAxis
+              .axisLabel('Score')
+              .tickFormat(d3.format(',f'));
+            ;
+
+            d3.select('#chart svg')
+              .datum(data())
+              .transition().duration(500)
+              .call(chart)
+            ;
+
+            nv.utils.windowResize(chart.update);
+
+            return chart;
+        });
+
+        function data() {
+            var scoresMe = [
+                        { x: 1, y: 23 },
+                        { x: 2, y: 23 },
+                        { x: 3, y: 23 },
+                        { x: 4, y: 22 },
+                        { x: 5, y: 20 },
+                        { x: 6, y: 21 },
+                        { x: 7, y: 20 },
+                        { x: 8, y: 23 },
+                        { x: 9, y: 24 },
+                        { x: 10, y: 19 },
+                        { x: 11, y: 23 },
+                        { x: 12, y: 21 },
+                        { x: 13, y: 22 },
+                        { x: 14, y: 24 },
+                        { x: 15, y: 20 },
+                        { x: 16, y: 19 }
+            ];
+            var scoresFatherInLaw = [
+                        { x: 1, y: 17 },
+                        { x: 2, y: 15 },
+                        { x: 3, y: 19 },
+                        { x: 4, y: 20 },
+                        { x: 5, y: 21 },
+                        { x: 6, y: 16 },
+                        { x: 7, y: 0 },
+                        { x: 8, y: 21 },
+                        { x: 9, y: 21 },
+                        { x: 10, y: 21 },
+                        { x: 11, y: 21 },
+                        { x: 12, y: 19 },
+                        { x: 13, y: 22 },
+                        { x: 14, y: 23 },
+                        { x: 15, y: 20 },
+                        { x: 16, y: 17 }
+            ];
+            var scoresBrotherInLaw = [
+                      { x: 1, y: 19 },
+                      { x: 2, y: 18 },
+                      { x: 3, y: 0 },
+                      { x: 4, y: 21 },
+                      { x: 5, y: 23 },
+                      { x: 6, y: 22 },
+                      { x: 7, y: 21 },
+                      { x: 8, y: 19 },
+                      { x: 9, y: 22 },
+                      { x: 10, y: 20 },
+                      { x: 11, y: 21 },
+                      { x: 12, y: 0 },
+                      { x: 13, y: 20 },
+                      { x: 14, y: 24 },
+                      { x: 15, y: 14 },
+                      { x: 16, y: 20 }
+            ];
+            return [
+              {
+                  values: scoresMe,
+                  key: 'Me',
+                  color: 'orange',
+                  area: false
+              },
+              {
+                  values: scoresFatherInLaw,
+                  key: 'Father-in-law',
+                  color: 'blue',
+                  area: false
+              },
+              {
+                  values: scoresBrotherInLaw,
+                  key: 'Brother-in-law',
+                  color: 'green',
+                  area: false
+              }
+
+
+            ];
+        }
+</script>
+
+<style>
+    #chart svg {
+        height: 600px;
+        width: 95%;
+    }
+
+    text {
+        font: 12px sans-serif;
+    }
+
+    svg {
+        display: block;
+    }
+
+</style>
+
+
+

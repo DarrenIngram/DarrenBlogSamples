@@ -35,6 +35,10 @@ namespace DarrenBlogSamples.UI.Controllers
             return View();
         }
 
+        public ActionResult GunClubSeason2017() {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult RealTimeMapAdmin(Models.D3.RealTimeMapAdmin model)
         {
